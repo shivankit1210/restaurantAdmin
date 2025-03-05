@@ -48,7 +48,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
-        policy.WithOrigins("http://localhost:5173") // Adjust if needed
+        policy.WithOrigins("https://your-netlify-app.netlify.app", "http://localhost:5173") // Adjust if needed
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials());
