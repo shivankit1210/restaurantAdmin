@@ -50,7 +50,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowReactApp", policy =>
         policy.WithOrigins("http://localhost:5173") // Adjust if needed
               .AllowAnyMethod()
-              .AllowAnyHeader());
+              .AllowAnyHeader()
+              .AllowCredentials());
 });
 
 //  Add Authentication and Authorization
@@ -86,6 +87,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+else
+{
+    app.UseHttpsRedirection();
 }
 
 // ✅ Middleware Order is Important
