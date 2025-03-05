@@ -1,0 +1,19 @@
+{
+    "ConnectionStrings": {
+      "DefaultConnection": "Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=admin"
+    },
+    "Logging": {
+      "LogLevel": {
+        "Default": "Information",
+        "Microsoft.AspNetCore": "Warning"
+      }
+    },
+    "AllowedHosts": "*",
+    "Jwt": {
+    "Key": "Slk#!21O@&^%$#u76(huh^%hih878djfnYUB",
+    "Issuer": "AdminServer.com",
+    "Audience": "Crave_Corner.com"
+  }
+  
+  }
+  

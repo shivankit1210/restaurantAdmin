@@ -8,34 +8,12 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// add config here before use
-var configuration = builder.Configuration;
-
-
-// <.> Load environment variables
+// Load environment variables
 builder.Configuration.AddEnvironmentVariables();
 
-//<.> Get database connection string from environment variables
+// Get database connection string from environment variables
 var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"]
     ?? throw new ArgumentNullException("Database connection string is missing.");
-
-
-builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true); //added file for authentication and Failed to determine the https port for redirect.
-
-
-// // ✅ Ensure configuration is properly loaded
-// var configuration = builder.Configuration;
-
-// ✅ Retrieve JWT settings safely
-//<.> string jwtKey = configuration.GetValue<string>("Jwt:Key")
-//                 ?? throw new ArgumentNullException("Jwt:Key is missing in appsettings.json.");
-
-// string jwtIssuer = configuration.GetValue<string>("Jwt:Issuer")
-//                    ?? throw new ArgumentNullException("Jwt:Issuer is missing in appsettings.json.");
-
-// string jwtAudience = configuration.GetValue<string>("Jwt:Audience")
-// <.>                     ?? throw new ArgumentNullException("Jwt:Audience is missing in appsettings.json.");
-
 
 // Retrieve JWT settings from environment variables
 string jwtKey = builder.Configuration["Jwt:Key"]
@@ -45,25 +23,20 @@ string jwtIssuer = builder.Configuration["Jwt:Issuer"]
 string jwtAudience = builder.Configuration["Jwt:Audience"]
     ?? throw new ArgumentNullException("JWT Audience is missing.");
 
-
-//  Add Database Context
-// builder.Services.AddDbContext<AppDbContext>(options =>
-//     options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
-
 // Add Database Context
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
-//  Add CORS policy
+// Add CORS policy
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
-        policy.WithOrigins("http://localhost:5173") // Adjust if needed
+        policy.WithOrigins("http://localhost:5173") // Change this to your frontend URL
               .AllowAnyMethod()
               .AllowAnyHeader());
 });
 
-//  Add Authentication and Authorization
+// Add Authentication and Authorization
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -80,27 +53,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthorizationBuilder()
-.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+    .AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
 
-// ✅ Add API Controllers and Swagger
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// ✅ Apply CORS before Authentication/Authorization
 app.UseCors("AllowReactApp");
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-// ✅ Middleware Order is Important
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseHttpsRedirection();
-app.UseAuthentication();  // ✅ Added missing Authentication middleware
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
