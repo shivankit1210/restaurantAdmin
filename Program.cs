@@ -48,10 +48,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
-        policy.WithOrigins("https://your-netlify-app.netlify.app", "http://localhost:5173") // Adjust if needed
+        policy.WithOrigins("https://crave-corner.netlify.app", "http://localhost:5173") // Adjust if needed
               .AllowAnyMethod()
               .AllowAnyHeader()
-              .AllowCredentials());
+              .AllowCredentials()
+              .SetIsOriginAllowed(_ => true));
 });
 
 //  Add Authentication and Authorization
@@ -94,7 +95,6 @@ else
 }
 
 // ✅ Middleware Order is Important
-app.UseHttpsRedirection();
 app.UseAuthentication();  // ✅ Added missing Authentication middleware
 app.UseAuthorization();
 app.MapControllers();
