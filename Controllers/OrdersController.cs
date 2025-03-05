@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace RestaurantAdmin.Controllers
 {
-    [Route("test/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class OrdersController : ControllerBase
     {

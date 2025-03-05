@@ -8,51 +8,41 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// add config here before use
-var configuration = builder.Configuration;
-
-
-// <.> Load environment variables
-builder.Configuration.AddEnvironmentVariables();
-
-//<.> Get database connection string from environment variables
-var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"]
-    ?? throw new ArgumentNullException("Database connection string is missing.");
-
 
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true); //added file for authentication and Failed to determine the https port for redirect.
 
+//<added here -->>
 
-// // ✅ Ensure configuration is properly loaded
-// var configuration = builder.Configuration;
+builder.Configuration.AddEnvironmentVariables();
+// Get database connection string from environment variables
+var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"]
+    ?? throw new ArgumentNullException("Database connection string is missing.");
+
+// added ends here -->>    
+
+// ✅ Ensure configuration is properly loaded
+var configuration = builder.Configuration;
 
 // ✅ Retrieve JWT settings safely
-//<.> string jwtKey = configuration.GetValue<string>("Jwt:Key")
-//                 ?? throw new ArgumentNullException("Jwt:Key is missing in appsettings.json.");
+string jwtKey = configuration.GetValue<string>("Jwt:Key")
+                ?? throw new ArgumentNullException("Jwt:Key is missing in appsettings.json.");
 
-// string jwtIssuer = configuration.GetValue<string>("Jwt:Issuer")
-//                    ?? throw new ArgumentNullException("Jwt:Issuer is missing in appsettings.json.");
+string jwtIssuer = configuration.GetValue<string>("Jwt:Issuer")
+                   ?? throw new ArgumentNullException("Jwt:Issuer is missing in appsettings.json.");
 
-// string jwtAudience = configuration.GetValue<string>("Jwt:Audience")
-// <.>                     ?? throw new ArgumentNullException("Jwt:Audience is missing in appsettings.json.");
-
-
-// Retrieve JWT settings from environment variables
-string jwtKey = builder.Configuration["Jwt:Key"]
-    ?? throw new ArgumentNullException("JWT Key is missing.");
-string jwtIssuer = builder.Configuration["Jwt:Issuer"]
-    ?? throw new ArgumentNullException("JWT Issuer is missing.");
-string jwtAudience = builder.Configuration["Jwt:Audience"]
-    ?? throw new ArgumentNullException("JWT Audience is missing.");
-
+string jwtAudience = configuration.GetValue<string>("Jwt:Audience")
+                     ?? throw new ArgumentNullException("Jwt:Audience is missing in appsettings.json.");
 
 //  Add Database Context
 // builder.Services.AddDbContext<AppDbContext>(options =>
 //     options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
-// Add Database Context
+// < added here -->
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
+
+// added ends here -->>    
 
 //  Add CORS policy
 builder.Services.AddCors(options =>

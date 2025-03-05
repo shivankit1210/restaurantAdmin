@@ -3665,11 +3665,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Admin\\documents\\react_projects\\adminpanel\\restaurantadmin\\RestaurantAdmin.csproj",
+      "projectUniqueName": "C:\\Users\\Admin\\Documents\\React_Projects\\RestaurantAdmin\\RestaurantAdmin.csproj",
       "projectName": "RestaurantAdmin",
-      "projectPath": "C:\\Users\\Admin\\documents\\react_projects\\adminpanel\\restaurantadmin\\RestaurantAdmin.csproj",
+      "projectPath": "C:\\Users\\Admin\\Documents\\React_Projects\\RestaurantAdmin\\RestaurantAdmin.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Admin\\documents\\react_projects\\adminpanel\\restaurantadmin\\obj\\",
+      "outputPath": "C:\\Users\\Admin\\Documents\\React_Projects\\RestaurantAdmin\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
