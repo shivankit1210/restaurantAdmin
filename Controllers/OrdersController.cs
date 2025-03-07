@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace RestaurantAdmin.Controllers
 {
-    [Route("api/[controller]")]
+    // [Route("api/[controller]")]
+    [Route("api/orders")]
     [ApiController]
     public class OrdersController : ControllerBase
     {
@@ -18,7 +19,7 @@ namespace RestaurantAdmin.Controllers
         }
 
         // Get all orders
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
             return await _context.Orders.ToListAsync();
@@ -34,7 +35,7 @@ namespace RestaurantAdmin.Controllers
         }
 
         // Create a new order
-        [HttpPost]
+        [HttpPost("add-order")]
         public async Task<ActionResult<Order>> CreateOrder([FromBody] Order order)
         {
             Console.WriteLine($"Received order: {order.CustomerName}, {order.FoodItem}, Price: {order.Price}");
@@ -88,7 +89,7 @@ namespace RestaurantAdmin.Controllers
         }
 
         // Delete an order
-        [HttpDelete("{id}")]
+        [HttpDelete("delete-order/{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
             var order = await _context.Orders.FindAsync(id);
